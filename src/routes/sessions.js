@@ -1,33 +1,32 @@
-// sessions.js
 const express = require("express");
 const passport = require("passport");
 const User = require("../models/User");
 
 const router = express.Router();
 
-// Ruta de registro de usuarios
+
 router.post('/register', async (req, res) => {
   try {
     const { first_name, last_name, email, password, age } = req.body;
 
-    // Verificar si el usuario ya existe
+   
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'El usuario ya existe' });
     }
 
-    // Crear el nuevo usuario
+    
     const newUser = new User({ first_name, last_name, email, password, age });
     await newUser.save();
 
     res.status(201).json({ message: 'Usuario registrado exitosamente' });
   } catch (error) {
-    console.error(error); // Agrega log para seguimiento de errores
+    console.error(error); 
     res.status(500).json({ message: 'Error interno del servidor.', error: error.message });
   }
 });
 
-// Ruta de inicio de sesión
+
 router.post("/", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -46,12 +45,11 @@ router.post("/", async (req, res) => {
 
     res.json({ message: "Inicio de sesión exitoso.", token });
   } catch (error) {
-    console.error(error); // Agrega log para seguimiento de errores
+    console.error(error); 
     res.status(500).json({ message: "Error interno del servidor.", error: error.message });
   }
 });
 
-// Ruta para obtener usuario autenticado
 router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
