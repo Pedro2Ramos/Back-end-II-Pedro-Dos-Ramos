@@ -14,7 +14,6 @@ mongoose.connection.on('disconnected', () => {
   console.log('Mongoose está desconectado');
 });
 
-// Función para verificar el estado de la conexión
 const verificarConexion = () => {
   switch (mongoose.connection.readyState) {
     case 0:
@@ -36,8 +35,8 @@ const verificarConexion = () => {
 
 verificarConexion();
 
-// Aquí inicia tu aplicación
-const app = require('./app');  // O archivo de configuración principal
+
+const app = require('./app'); 
 app.listen(3000, () => {
   console.log('Servidor corriendo en http://localhost:3000');
 });

@@ -1,21 +1,18 @@
-const express = require("express");
-const passport = require("passport");
-const User = require("../models/User");
+import express from 'express';
+import passport from 'passport';
+import User from '../models/User.js';
 
 const router = express.Router();
-
 
 router.post('/register', async (req, res) => {
   try {
     const { first_name, last_name, email, password, age } = req.body;
 
-   
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'El usuario ya existe' });
     }
 
-    
     const newUser = new User({ first_name, last_name, email, password, age });
     await newUser.save();
 
@@ -25,7 +22,6 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ message: 'Error interno del servidor.', error: error.message });
   }
 });
-
 
 router.post("/", async (req, res) => {
   try {
@@ -52,7 +48,7 @@ router.post("/", async (req, res) => {
 
 router.get(
   "/current",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }), 
   (req, res) => {
     res.json({
       user: {
@@ -66,4 +62,4 @@ router.get(
   }
 );
 
-module.exports = router;
+export default router;  // Exportación por defecto

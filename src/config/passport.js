@@ -1,11 +1,11 @@
-const passport = require('passport');
-const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
-const mongoose = require('mongoose');
-const User = require('../models/User');
+import passport from 'passport';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import mongoose from 'mongoose';
+import User from '../models/User.js';
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET, // Asegúrate de usar la variable de entorno
+  secretOrKey: process.env.JWT_SECRET,
 };
 
 passport.use(
@@ -34,4 +34,4 @@ mongoose.connection.on('disconnected', () => {
   console.log('Mongoose está desconectado');
 });
 
-module.exports = passport;
+export { passport }; // Exportación nombrada
